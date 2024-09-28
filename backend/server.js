@@ -6,7 +6,7 @@ dotenv.config();
 
 const app = express();
 
-app.get("/jobs", (req, res) => {
+app.post("/jobs", (req, res) => {
     // res.send("Server is ready");
 })
 
