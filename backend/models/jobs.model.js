@@ -1,29 +1,29 @@
 import mongoose from "mongoose";
 
-const jobSchema = new moongoose.Schema({
+const jobSchema = new mongoose.Schema({
     jobName: {
         type: String,
         required: true
     },
-    businessName: {
+    companyName: {
         type: String,
         required: true
     },
     website: {
         type: String,
         required: true
-    },
-    image: {
-        type: String,
-        required: false
-    },
-    remote: {
-        type: String,
-        required: false
     }
+    // image: {
+    //     type: String,
+    //     required: false
+    // },
+    // remote: {
+    //     type: String,
+    //     required: false
+    // }
 }, {
     //createdAt, updatedAt
-    Timestamp: true
+    timestamps: true
 });
 
 const Job = mongoose.model('Job', jobSchema);
