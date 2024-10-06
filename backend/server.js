@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import { connectDB } from './config/db.js';
 import Job from './models/jobs.model.js';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -48,10 +49,32 @@ app.post("/api/jobs/", async (req, res) => {
         res.status(500).json({ success: false, message: "Server Error" });
 
     }
-})
+});
 
-// console.log(process.env.MONGO_URI);
-// 38
+app.put("/api/jobs/:id", async (req, res) => {
+    
+    const { id } = req.params;
+
+    const job = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({success: false, message: "Invalid Job ID"})
+    }
+
+    try {
+
+        const updatedJob = await Job.findByIdAndUpdate(id, job, {new: true});
+        res.status(200).json({ success: true, data: updatedJob });
+
+    } catch (error) {
+
+        res.status(500).json({ success: false, message: "Server error"});
+        console.log("Error updating job: " + error);
+
+    }
+
+});
+
 app.delete("/api/jobs/:id", async (req, res) => {
 
     const {id} = req.params;
@@ -67,8 +90,9 @@ app.delete("/api/jobs/:id", async (req, res) => {
 
         res.status(404).json({ success: false, message: "Job not found" });
         console.log("Error deleting job: " + error.message);
+
     }
-})
+});
 
 app.listen(5000, () => {
     connectDB();
