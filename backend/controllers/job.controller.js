@@ -69,7 +69,9 @@ export const deleteJob = async (req, res) => {
 
     const {id} = req.params;
 
-    console.log("id: ", id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({success: false, message: "Invalid Job ID"})
+    }
 
     try {
 
@@ -78,7 +80,7 @@ export const deleteJob = async (req, res) => {
 
     } catch (error) {
 
-        res.status(404).json({ success: false, message: "Job not found" });
+        res.status(500).json({ success: false, message: "Server error" });
         console.log("Error deleting job: " + error.message);
 
     }
