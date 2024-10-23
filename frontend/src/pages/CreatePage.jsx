@@ -1,5 +1,6 @@
 import React from 'react'
-import { Container, useColorModeValue, Box, Heading, VStack } from '@chakra-ui/react'
+import { useState } from 'react';
+import { Container, useColorModeValue, Box, Button, Input, Heading, VStack } from '@chakra-ui/react'
 
 
 const CreatePage = () => {
@@ -10,8 +11,12 @@ const CreatePage = () => {
     website:"",
 });
 
+const handleAddJob = () => {
+  console.log(newJob);
+}
+
   return (
-    <Container maxW={"container.sm"}>CreatePage
+    <Container maxW={"container.sm"}>
     <VStack spacing={8}>
       <Heading as={"h1"} size={"2x1"} textAlign={"center"} mb={8}>
         Suggest New Job
@@ -27,8 +32,23 @@ const CreatePage = () => {
         <VStack spacing={4}>
 
           <Input placeholder="Job title"
-          name= "name"
-          value={newJob.jobName}/>
+          name= "jobname"
+          value={newJob.jobName}
+          onChange={(event) => setNewJob({...newJob, jobName: event.target.value})}/>
+
+          <Input placeholder="Company Name"
+          name= "companyname"
+          value={newJob.companyName}
+          onChange={(event) => setNewJob({...newJob, companyName: event.target.value})}/>
+
+          <Input placeholder="Listing URL"
+          name= "website"
+          value={newJob.website}
+          onChange={(event) => setNewJob({...newJob, website: event.target.value})}/>
+
+          <Button colorScheme="blue" onClick={handleAddJob} w="full">
+            Submit Job
+          </Button>
 
         </VStack>
 
