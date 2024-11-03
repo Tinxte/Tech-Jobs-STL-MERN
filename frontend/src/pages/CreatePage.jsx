@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import { Container, useColorModeValue, Box, Button, Input, Heading, VStack } from '@chakra-ui/react'
+import { Container, useColorModeValue, Box, Button, Input, Heading, VStack, useToast } from '@chakra-ui/react'
+import { useJobStore } from '../store/job';
 
 
 const CreatePage = () => {
@@ -8,11 +9,35 @@ const CreatePage = () => {
   const [newJob, setNewJob] = useState( {
     jobName:"",
     companyName:"",
-    website:"",
+    website:""
 });
 
-const handleAddJob = () => {
+const toast = useToast()
+
+const {createJob} = useJobStore();
+
+const handleAddJob = async() => {
+
+  const {success, message} = await createJob(newJob);
+
+  if (!success) {
+    toast({
+      title:"Error",
+      description: message, 
+      status: "error",
+      isClosable: true
+    })
+  } else {
+    toast({
+      title: "Success",
+      description: message,
+      status: "success",
+      isClosable: true
+    })
+  }
+
   console.log(newJob);
+
 }
 
   return (

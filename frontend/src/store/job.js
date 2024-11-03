@@ -15,6 +15,8 @@ export const useJobStore = create((set) => ({
             body: JSON.stringify(newJob)
         })
         const data = await res.json();
-        set((state) => ({ jobs: [...state.jobs, data] }))
+        set((state) => ({ jobs: [...state.jobs, data.data] }));
+
+        return {success: true, message: "Job submitted successfully."}
     }
 }));
