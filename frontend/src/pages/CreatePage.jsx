@@ -33,8 +33,10 @@ const handleAddJob = async() => {
       description: message,
       status: "success",
       isClosable: true
-    })
+    });
   }
+
+  setNewJob({ jobName: "", companyName: "", website: "" });
 
   console.log(newJob);
 
