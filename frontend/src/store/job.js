@@ -18,5 +18,10 @@ export const useJobStore = create((set) => ({
         set((state) => ({ jobs: [...state.jobs, data.data] }));
 
         return {success: true, message: "Job submitted successfully."}
+    },
+    fetchJobs: async () => {
+        const res = await fetch("/api/jobs");
+        const data = await res.json();
+        set({ jobs: data.data });
     }
 }));
