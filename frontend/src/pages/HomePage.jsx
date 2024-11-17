@@ -42,14 +42,18 @@ const HomePage = () => {
             
           </SimpleGrid>
 
-        <Text fontSize="xl" textAlign={"center"} fontWeight={"bold"} color={"gray.500"}>
-          No job listings found! {" "}
-          <Link to={"/create"}>
-            <Text as="span" color={"blue.500"} _hover={{ textDecoration: "underline" }}>
-              Suggest a job
-            </Text>
-          </Link>
-        </Text>
+          {jobs.length === 0 && (
+            <Text fontSize="xl" textAlign={"center"} fontWeight={"bold"} color={"gray.500"}>
+            No job listings found! {" "}
+            <Link to={"/create"}>
+              <Text as="span" color={"blue.500"} _hover={{ textDecoration: "underline" }}>
+                Suggest a job
+              </Text>
+            </Link>
+          </Text>
+          )}
+
+        
 
       </VStack>
     </Container>
