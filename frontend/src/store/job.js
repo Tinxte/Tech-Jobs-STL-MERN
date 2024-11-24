@@ -23,5 +23,16 @@ export const useJobStore = create((set) => ({
         const res = await fetch("/api/jobs");
         const data = await res.json();
         set({ jobs: data.data });
+    },
+    deleteJob: async (jobid) => {
+        const res= await fetch(`/api/jobs/${jobid}`, {
+            method: "DELETE",
+        });
+        const data = await res.json();
+        if (!data.success) return { success: false, message: data.message };
+
+        // Updates UI immediately on delete, without needing to refresh page
+        set(state => ({ jobs: state.jobs.filter(job => job._id !== jobid) }));
+        return { success: true, message: data.message };
     }
 }));

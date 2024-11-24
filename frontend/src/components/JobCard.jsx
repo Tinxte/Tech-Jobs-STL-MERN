@@ -1,9 +1,35 @@
-import { Box, Image, useColorModeValue, Heading, Text } from '@chakra-ui/react';
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Box, Button, Heading, HStack, IconButton, Image, Input, useColorModeValue, Text, VStack, useToast } from '@chakra-ui/react';
+import { useJobStore } from "../store/job";
+import { useState } from "react";
 
 const JobCard = ({job}) => {
 
     const textColor = useColorModeValue("gray.600", "gray.200");
     const bg= useColorModeValue("white", "gray.800");
+
+    const { deleteJob } = useJobStore();
+    const toast = useToast()
+    const handleDeleteJob = async (jobid) => {
+        const {success, message} = await deleteJob(jobid)
+        if (!success) {
+            toast({
+                title: "Error",
+                description: message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            })
+        } else {
+            toast({
+                title: "Success",
+                description: message,
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            })
+        }
+    }
 
     return (
     <Box
@@ -29,6 +55,10 @@ const JobCard = ({job}) => {
             <Text fontWeight='bold' fontSize='xl' color={textColor} mb={4}>
                 {job.companyName}
             </Text>
+
+            <HStack spacing={2}>
+                <IconButton icon={<DeleteIcon />} onClick={() => handleDeleteJob(job._id)} colorScheme='red' />
+            </HStack>
 
         </Box>
 
