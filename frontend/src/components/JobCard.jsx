@@ -1,5 +1,5 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, Heading, HStack, IconButton, Image, Input, useColorModeValue, Text, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Heading, HStack, IconButton, Image, Input, Modal, useColorModeValue, Text, VStack, useToast, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
 import { useJobStore } from "../store/job";
 import { useState } from "react";
 
@@ -10,6 +10,8 @@ const JobCard = ({job}) => {
 
     const { deleteJob } = useJobStore();
     const toast = useToast()
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const handleDeleteJob = async (jobid) => {
         const {success, message} = await deleteJob(jobid)
         if (!success) {
@@ -57,10 +59,48 @@ const JobCard = ({job}) => {
             </Text>
 
             <HStack spacing={2}>
+                <IconButton icon={<EditIcon />} 
+                onClick={onOpen}
+                colorScheme="blue" />
                 <IconButton icon={<DeleteIcon />} onClick={() => handleDeleteJob(job._id)} colorScheme='red' />
             </HStack>
 
         </Box>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+
+            <ModalContent>
+                <ModalHeader>Update Job</ModalHeader>
+                <ModalCloseButton />
+
+                    <ModalBody>
+                        <VStack spacing={4}>
+                            <Input
+                            placeholder="Job Name"
+                            name="jobName"
+                            // value={updatedJob.jobName}
+                            // onChange={(e) => setUpdatedJob({...updatedJob, jobName: e.target.value})}
+                            />
+
+                            <Input
+                            placeholder="Company Name"
+                            name="companyName"
+                            // value={updatedJob.companyName}
+                            // onChange={(e) => setUpdatedJob({...updatedJob, companyName: e.target.value})}
+                            />
+
+                            <Input
+                            placeholder="Website"
+                            name="website"
+                            // value={updatedJob.website}
+                            // onChange={(e) => setUpdatedJob({...updatedJob, website: e.target.value})}
+                            />
+                        </VStack>
+                    </ModalBody>
+
+            </ModalContent>
+        </Modal>
 
     </Box>
     
